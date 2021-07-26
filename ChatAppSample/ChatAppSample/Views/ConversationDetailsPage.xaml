@@ -18,7 +18,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -38,20 +38,23 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand"
                 Margin="10,10,0,0"
-                   TextColor="White"/>
+                TextColor="White"
+                   xct:TouchEffect.PressedAnimationDuration="400"
+                   xct:TouchEffect.PressedScale="0.1"/>
 
             <!--BODY-->
             <Grid Grid.Row="2">
 
                 <!--RECEIVED MESSAGES-->
                 <ListView ItemsSource="{Binding Messages}"
-                                ItemTemplate="{StaticResource MessageTemplateSelector}"
-                                VerticalOptions="FillAndExpand"
-                                HorizontalOptions="FillAndExpand"
+                        ItemTemplate="{StaticResource MessageTemplateSelector}"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
                           Margin="0"
                           SeparatorColor="Transparent"
                           HasUnevenRows="True"
-                          SelectionMode="None">
+                          SelectionMode="None" 
+                          BackgroundColor="White">
                 </ListView>
             </Grid>
         </Grid>
