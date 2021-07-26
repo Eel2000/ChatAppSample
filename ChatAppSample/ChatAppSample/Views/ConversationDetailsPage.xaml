@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:ChatAppSample.ViewModels"
+             xmlns:selector="clr-namespace:ChatAppSample.Controls"
+             x:Class="ChatAppSample.Views.ConversationDetailsPage"
+             BackgroundColor="#2196F3">
+    <NavigationPage.HasBackButton>True</NavigationPage.HasBackButton>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <selector:DataSelector x:Key="MessageTemplateSelector"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Text="Back"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Start"
+                   Margin="10,10,0,0"
+                   TextColor="White"
+                   xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ConversationDetailsPageViewModel}},Path=BackCommand}"/>
+
+            <Label Grid.Row="1"
+                Text="{Binding Title}"
+                FontSize="30"
+                FontAttributes="Bold"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand"
+                Margin="10,10,0,0"
+                   TextColor="White"/>
+
+            <!--BODY-->
+            <Grid Grid.Row="2">
+
+                <!--RECEIVED MESSAGES-->
+                <ListView ItemsSource="{Binding Messages}"
+                                ItemTemplate="{StaticResource MessageTemplateSelector}"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                          Margin="0"
+                          SeparatorColor="Transparent"
+                          HasUnevenRows="True"
+                          SelectionMode="None">
+                </ListView>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

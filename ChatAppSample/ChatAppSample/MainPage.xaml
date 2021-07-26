@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:ChatAppSample.ViewModels"
+             x:Class="ChatAppSample.MainPage" 
+             BackgroundColor="#2196F3">
+    <NavigationPage.HasNavigationBar>False</NavigationPage.HasNavigationBar>
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+            <Label Text="{Binding Title}" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+        </Frame>
+        <Grid>
+            <CollectionView ItemsSource="{Binding Messages}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="1" Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame xct:TouchEffect.HoveredBackgroundColor="GhostWhite"
+                               xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}},Path=SelectConversationCommand}"
+                               xct:TouchEffect.PressedOpacity="0.2"
+                               xct:TouchEffect.PressedAnimationDuration="1"
+                               xct:TouchEffect.PressedBackgroundColor="GhostWhite"
+                               xct:TouchEffect.CommandParameter="{Binding .}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <xct:AvatarView Text="{Binding Initials}"
+                                                FontSize="17"
+                                                HeightRequest="50"
+                                                WidthRequest="50"/>
+
+                                <StackLayout Grid.Column="1">
+                                    <Label Text="{Binding ContactName}"
+                                           VerticalOptions="Start"
+                                           HorizontalOptions="StartAndExpand"
+                                           TextColor="Black" 
+                                           FontAttributes="Bold"
+                                           FontSize="17"/>
+                                    
+                                    <Label Text="{Binding LastRead}"
+                                           VerticalOptions="CenterAndExpand"
+                                           HorizontalOptions="StartAndExpand"
+                                           TextColor="Black"/>
+                                    
+                                    <Label Text="{Binding Time}"
+                                           HorizontalOptions="EndAndExpand"
+                                           TextColor="Black"/>
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </StackLayout>
+
+</ContentPage>
