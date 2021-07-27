@@ -4,8 +4,10 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:ChatAppSample.ViewModels"
              xmlns:selector="clr-namespace:ChatAppSample.Controls"
+             xmlns:partials="clr-namespace:ChatAppSample.Views.Partials"
+             xmlns:sh="http://sharpnado.com"
              x:Class="ChatAppSample.Views.ConversationDetailsPage"
-             BackgroundColor="#2196F3">
+             BackgroundColor="White">
     <NavigationPage.HasBackButton>True</NavigationPage.HasBackButton>
 
     <ContentPage.Resources>
@@ -20,6 +22,7 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <Label Text="Back"
@@ -28,7 +31,7 @@
                     VerticalOptions="Start" 
                     HorizontalOptions="Start"
                    Margin="10,10,0,0"
-                   TextColor="White"
+                   TextColor="Black"
                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ConversationDetailsPageViewModel}},Path=BackCommand}"/>
 
             <Label Grid.Row="1"
@@ -38,14 +41,14 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand"
                 Margin="10,10,0,0"
-                TextColor="White"
+                TextColor="Black"
                    xct:TouchEffect.PressedAnimationDuration="400"
                    xct:TouchEffect.PressedScale="0.1"/>
 
             <!--BODY-->
             <Grid Grid.Row="2">
 
-                <!--RECEIVED MESSAGES-->
+                <!--CONVERSATION MESSAGES-->
                 <ListView ItemsSource="{Binding Messages}"
                         ItemTemplate="{StaticResource MessageTemplateSelector}"
                         VerticalOptions="FillAndExpand"
@@ -56,6 +59,44 @@
                           SelectionMode="None" 
                           BackgroundColor="White">
                 </ListView>
+            </Grid>
+
+            <Grid Grid.Row="3"
+                  RowSpacing="0"
+                  ColumnSpacing="5" Padding="10,0,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <selector:CustomEntry x:Name="chatInput"
+                                       Text="{Binding Body}"
+                                       TextColor="Black"
+                                       Keyboard="Text"
+                                       HorizontalOptions="FillAndExpand"
+                                       Placeholder="Tape here your message"
+                                      PlaceholderColor="#86beda"
+                                       Grid.Row="0"
+                                       Grid.Column="0"/>    
+
+                <sh:Shadows CornerRadius="60"
+                            Shades="{sh:SingleShade Offset='0,10', Opacity=0.1, Color=GhostWhite}"                    
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            BackgroundColor="Transparent">
+
+                    <ImageButton
+                        CornerRadius="80"
+                        VerticalOptions="Center"
+                        Source="fleche"
+                        Command="{Binding SendCommand}"
+                        xct:TouchEffect.AnimationDuration="300"
+                        xct:TouchEffect.PressedScale="0.1"
+                        BackgroundColor="Transparent"/>
+                </sh:Shadows>
             </Grid>
         </Grid>
     </ContentPage.Content>

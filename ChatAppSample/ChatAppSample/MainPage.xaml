@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:ChatAppSample.ViewModels"
+             xmlns:fab="clr-namespace:ChatAppSample.Views.Helpers"
              x:Class="ChatAppSample.MainPage" 
              BackgroundColor="#FFF">
     <NavigationPage.HasNavigationBar>False</NavigationPage.HasNavigationBar>
@@ -64,6 +65,11 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <fab:Fab BackgroundColor="Red"
+                     VerticalOptions="End"
+                     HorizontalOptions="End"
+                     Margin="25"/>
         </Grid>
     </StackLayout>
 

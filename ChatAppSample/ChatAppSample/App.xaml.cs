@@ -15,6 +15,7 @@ namespace ChatAppSample
 
         protected override void OnStart()
         {
+            Sharpnado.Shades.Initializer.Initialize(true);
         }
 
         protected override void OnSleep()
