@@ -1,4 +1,5 @@
 ﻿using ChatAppSample.Extensions;
+using ChatAppSample.ViewModels;
 using Sharpnado.Shades;
 using System;
 using System.Threading.Tasks;
@@ -64,6 +65,7 @@ namespace ChatAppSample.Views.Helpers
         public Fab()
         {
             InitializeComponent();
+            BindingContext = new MainPageViewModel();
         }
 
         protected async override void OnParentSet()

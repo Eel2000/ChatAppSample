@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="ChatAppSample.Views.ContactsPage">
+
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <!--HEADER-->
+        <Frame BackgroundColor="#2196F3">
+            <Grid ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="{Binding BackArrow}" HorizontalOptions="StartAndExpand"
+                       VerticalOptions="StartAndExpand"
+                       HeightRequest="100"
+                       WidthRequest="100" 
+                       FontSize="48"
+                       FontAttributes="Bold"
+                       FontFamily="ProductSansRegular"
+                       xct:TouchEffect.AnimationDuration="300"
+                       xct:TouchEffect.PressedScale="0.2"/>
+
+                <Label
+                    Grid.Column="1"
+                    Text="Contacts"
+                       VerticalOptions="End"
+                       HorizontalOptions="StartAndExpand"
+                       FontFamily="ProductSansRegularBold"
+                       FontSize="Title"/>
+
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

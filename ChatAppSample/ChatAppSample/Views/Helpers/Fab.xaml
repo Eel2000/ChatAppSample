@@ -38,7 +38,8 @@
                 Visual="Material"
                 Clicked="Button_Clicked"
                 xct:TouchEffect.PressedAnimationDuration="300"
-                xct:TouchEffect.PressedScale="0.1"/>
+                xct:TouchEffect.PressedScale="0.1"
+                Command="{Binding AddConversationCommand}"/>
 
     </sh:Shadows>
     

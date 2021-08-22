@@ -6,6 +6,7 @@
              xmlns:selector="clr-namespace:ChatAppSample.Controls"
              xmlns:partials="clr-namespace:ChatAppSample.Views.Partials"
              xmlns:sh="http://sharpnado.com"
+             xmlns:b="clr-namespace:ChatAppSample.Behaviors"
              x:Class="ChatAppSample.Views.ConversationDetailsPage"
              BackgroundColor="White">
     <NavigationPage.HasBackButton>True</NavigationPage.HasBackButton>
@@ -57,7 +58,12 @@
                           SeparatorColor="Transparent"
                           HasUnevenRows="True"
                           SelectionMode="None" 
-                          BackgroundColor="White">
+                          BackgroundColor="White"
+                          IsRefreshing="{Binding Refrech}"
+                          x:Name="Messages">
+                    <ListView.Behaviors>
+                        <b:InfiniteScroll LoadMoreCommand="{Binding LoadCommand}"/>
+                    </ListView.Behaviors>
                 </ListView>
             </Grid>
 
@@ -73,14 +79,17 @@
                 </Grid.ColumnDefinitions>
 
                 <selector:CustomEntry x:Name="chatInput"
-                                       Text="{Binding Body}"
+                                       Text="{Binding Message}"
                                        TextColor="Black"
                                        Keyboard="Text"
                                        HorizontalOptions="FillAndExpand"
                                        Placeholder="Tape here your message"
                                       PlaceholderColor="#86beda"
                                        Grid.Row="0"
-                                       Grid.Column="0"/>    
+                                       Grid.Column="0"
+                                      IsTextPredictionEnabled="True"
+                                      IsSpellCheckEnabled="True"
+                                      CursorPosition="1"/>    
 
                 <sh:Shadows CornerRadius="60"
                             Shades="{sh:SingleShade Offset='0,10', Opacity=0.1, Color=GhostWhite}"                    

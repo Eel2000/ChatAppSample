@@ -22,6 +22,7 @@ namespace ChatAppSample.ViewModels
         }
 
         public ICommand SelectConversationCommand { get; set; }
+        public ICommand AddConversationCommand { get; set; }
 
         public MainPageViewModel()
         {
@@ -46,6 +47,11 @@ namespace ChatAppSample.ViewModels
             {
                 await App.Current.MainPage.Navigation.PushModalAsync(new ConversationDetailsPage(Conversation.ContactName));
                 //await App.Current.MainPage.ShowSuccessAsync($"{Conversation.ContactName} conversation opened");
+            });
+
+            AddConversationCommand = new Command(async () =>
+            {
+                await App.Current.MainPage.Navigation.PushModalAsync(new ContactsPage());
             });
         }
     }

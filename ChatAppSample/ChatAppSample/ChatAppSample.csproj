@@ -10,7 +10,26 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+	<ItemGroup>
+		<None Remove="Fonts\FontAwesomeBrand.ttf" />
+		<None Remove="Fonts\FontAwesomeSolid.ttf" />
+		<None Remove="Fonts\ProductSans-Bold.ttf" />
+		<None Remove="Fonts\ProductSans-BoldItalic.ttf" />
+		<None Remove="Fonts\ProductSans-Italic.ttf" />
+		<None Remove="Fonts\ProductSans-Regular.ttf" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<EmbeddedResource Include="Fonts\FontAwesomeBrand.ttf" />
+		<EmbeddedResource Include="Fonts\FontAwesomeSolid.ttf" />
+		<EmbeddedResource Include="Fonts\ProductSans-Bold.ttf" />
+		<EmbeddedResource Include="Fonts\ProductSans-BoldItalic.ttf" />
+		<EmbeddedResource Include="Fonts\ProductSans-Italic.ttf" />
+		<EmbeddedResource Include="Fonts\ProductSans-Regular.ttf" />
+	</ItemGroup>
+
   <ItemGroup>
+    <PackageReference Include="LiteDB" Version="5.0.11" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
     <PackageReference Include="Sharpnado.Shadows" Version="1.2.0" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
@@ -21,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\ContactsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ConversationDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

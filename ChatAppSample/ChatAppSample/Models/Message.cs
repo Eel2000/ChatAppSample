@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChatAppSample.Models
 {
-    class Message
+    public class Message
     {
         public int Id { get; set; }
         public string Body { get; set; }
