@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(LiteMessagingContext))]
-    partial class LiteMessagingContextModelSnapshot : ModelSnapshot
+    [Migration("20210823173435_updateDatabase")]
+    partial class updateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +35,10 @@ namespace Persistence.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ReceiverPhone")
+                    b.Property<string>("SenderID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderPhone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserPhone")

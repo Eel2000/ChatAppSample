@@ -11,9 +11,8 @@ namespace Domain.Entities
     {
         public string Body { get; set; }
         public DateTime Date { get; set; }
-        public string SenderPhone { get; set; }
-        public string SenderID { get; set; }
-        public string UserID { get; set; }
+        public string ReceiverPhone { get; set; }
+        public string Phone { get; set; }
 
         public virtual User User { get; set; }
 

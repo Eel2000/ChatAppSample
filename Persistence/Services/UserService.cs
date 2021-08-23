@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Account;
+using Application.DTOs.Messages;
 using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,34 @@ namespace Persistence.Services
             return user;
         }
 
+        public async Task<IReadOnlyList<MessageDTO>> GetMessages(string phone)
+        {
+            if (string.IsNullOrWhiteSpace(phone))
+            {
+                throw new ArgumentException("The required field PHONE is missing.");
+            }
+
+            var messages = await liteMessagingContext.Messages.Where(x => x.Phone == phone)
+                .OrderByDescending(x=>x.Date)
+                .ToListAsync();
+
+            var msg = new List<MessageDTO>();
+            foreach (var item in messages)
+            {
+                msg.Add(new MessageDTO
+                {
+                    Body = item.Body,
+                    Date = item.Date,
+                    ReceiverPhone = item.ReceiverPhone,
+                    ReceiverName = (await liteMessagingContext.Users
+                    .FirstOrDefaultAsync(x=>x.Phone ==  item.ReceiverPhone)).Username,
+                    ID = item.ID
+                });
+            }
+
+            return msg;
+        }
+
         public async Task<UserDTO> GetUserByNumber(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
@@ -59,6 +88,33 @@ namespace Persistence.Services
             {
                 Username = u.Username,
                 PhoneNumber = u.Phone,
+            };
+        }
+
+        public async Task<MessageDTO> SendAsync(MsgParam msg)
+        {
+            //TODO: Launch PushNotification here
+            var message = new Message
+            {
+                ID = Guid.NewGuid().ToString(),
+                Date = DateTime.Now,
+                Body = msg.Body,
+                Phone = msg.Phone,
+                ReceiverPhone = msg.ReceiverPhone
+            };
+
+            await liteMessagingContext.Messages.AddAsync(message);
+            await liteMessagingContext.SaveChangesAsync();
+
+            return new MessageDTO
+            {
+                ID = message.ID,
+                Date = message.Date,
+                Body = message.Body,
+                Phone = message.Phone,
+                ReceiverPhone = message.ReceiverPhone,
+                ReceiverName = (await liteMessagingContext.Users
+                .FirstOrDefaultAsync(x => x.Phone == message.ReceiverPhone)).Phone,
             };
         }
 

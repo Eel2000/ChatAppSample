@@ -1,4 +1,6 @@
 ﻿using Application.DTOs.Account;
+using Application.DTOs.Messages;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +32,19 @@ namespace Application.Interfaces
         /// <param name="token">The token</param>
         /// <returns><see cref="Task{bool}"/> <seealso cref="true"/> if it's updated otherwise <see cref="false"/></returns>
         Task<bool> UpdateTokenAsync(string phone, string token);
+
+        /// <summary>
+        /// Get All user messages.
+        /// </summary>
+        /// <param name="phone">The user phone number.</param>
+        /// <returns><see cref="IReadOnlyList{T}"/> The list of messages.</returns>
+        Task<IReadOnlyList<MessageDTO>> GetMessages(string phone);
+
+        /// <summary>
+        /// Send message.
+        /// </summary>
+        /// <param name="msg">Message data.</param>
+        /// <returns><see cref="MessageDTO"/> The result.</returns>
+        Task<MessageDTO> SendAsync(MsgParam msg);
     }
 }
