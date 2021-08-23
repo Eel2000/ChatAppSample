@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Contexts;
 using System;
+using Persistence.Services;
 
 namespace Persistence
 {
@@ -17,6 +19,11 @@ namespace Persistence
                 options.EnableDetailedErrors(true);
                 options.LogTo(Console.WriteLine);
             });
+
+
+            #region ServiceRegistration
+            services.AddTransient<IUserService, UserService>();
+            #endregion
         }
     }
 }

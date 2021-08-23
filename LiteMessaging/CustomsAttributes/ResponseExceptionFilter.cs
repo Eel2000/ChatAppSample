@@ -27,7 +27,6 @@ namespace LiteMessaging.CustomsAttributes
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            throw new NotImplementedException();
         }
     }
 }

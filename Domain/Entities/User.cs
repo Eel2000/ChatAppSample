@@ -19,6 +19,7 @@ namespace Domain.Entities
         public string Phone { get; set; }
         public string Username { get; set; }
         public byte Profile { get; set; }
+        public string Token { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
     }
