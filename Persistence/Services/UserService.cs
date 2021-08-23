@@ -63,8 +63,9 @@ namespace Persistence.Services
                     Date = item.Date,
                     ReceiverPhone = item.ReceiverPhone,
                     ReceiverName = (await liteMessagingContext.Users
-                    .FirstOrDefaultAsync(x=>x.Phone ==  item.ReceiverPhone)).Username,
-                    ID = item.ID
+                    .FirstOrDefaultAsync(x=>x.Phone ==  item.ReceiverPhone))?.Username,
+                    ID = item.ID,
+                    Phone = item.Phone
                 });
             }
 
@@ -114,7 +115,7 @@ namespace Persistence.Services
                 Phone = message.Phone,
                 ReceiverPhone = message.ReceiverPhone,
                 ReceiverName = (await liteMessagingContext.Users
-                .FirstOrDefaultAsync(x => x.Phone == message.ReceiverPhone)).Phone,
+                .FirstOrDefaultAsync(x => x.Phone == message.ReceiverPhone))?.Phone,
             };
         }
 

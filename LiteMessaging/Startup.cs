@@ -38,6 +38,14 @@ namespace LiteMessaging
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LiteMessaging", Version = "v1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "LiteMessaging", Version = "v2" });
+            });
+
+            services.AddApiVersioning(config =>
+            {
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                config.ReportApiVersions = true;
             });
 
             services.AddApplicationLayer();
@@ -52,7 +60,16 @@ namespace LiteMessaging
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiteMessaging v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiteMessaging v1"));
             }
+
+            app.UseSwagger();
+            app.UseApiVersioning();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiteMessaging v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiteMessaging v1");
+            });
 
             app.UseHttpsRedirection();
 
