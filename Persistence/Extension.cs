@@ -23,7 +23,6 @@ namespace Persistence
 
             #region ServiceRegistration
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<INotificationService, NotificationService>();
             #endregion
         }
     }
