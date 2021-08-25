@@ -37,5 +37,10 @@ namespace Application.DTOs.Messages
         /// the user phone
         /// </summary>
         public string Phone { get; set; }
+
+        /// <summary>
+        /// the push notification result.
+        /// </summary>
+        public string DeliveryRepport { get; set; }
     }
 }

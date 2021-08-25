@@ -20,6 +20,11 @@ namespace Application.DTOs.Messages
         public string ReceiverPhone { get; set; }
 
         /// <summary>
+        /// The firebase receiver's token
+        /// </summary>
+        public string ReceiverToken { get; set; }
+
+        /// <summary>
         /// the user phone
         /// </summary>
         public string Phone { get; set; }

@@ -7,7 +7,7 @@ using Persistence.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Persistence.Services
@@ -15,16 +15,18 @@ namespace Persistence.Services
     public class UserService : IUserService
     {
         private readonly LiteMessagingContext liteMessagingContext;
+        private readonly INotificationService notificationService;
 
-        public UserService(LiteMessagingContext liteMessagingContext)
+        public UserService(LiteMessagingContext liteMessagingContext, INotificationService notificationService)
         {
+            this.notificationService = notificationService;
             this.liteMessagingContext = liteMessagingContext;
         }
 
         public async Task<UserDTO> CreateAccount(UserDTO user)
         {
             var alreadyCreated = await liteMessagingContext.Users.FirstOrDefaultAsync(x => x.Phone == user.PhoneNumber);
-            if(alreadyCreated is not null)
+            if (alreadyCreated is not null)
             {
                 throw new AccessViolationException("This number is already related to an account");
             }
@@ -51,7 +53,7 @@ namespace Persistence.Services
             }
 
             var messages = await liteMessagingContext.Messages.Where(x => x.Phone == phone)
-                .OrderByDescending(x=>x.Date)
+                .OrderByDescending(x => x.Date)
                 .ToListAsync();
 
             var msg = new List<MessageDTO>();
@@ -63,13 +65,39 @@ namespace Persistence.Services
                     Date = item.Date,
                     ReceiverPhone = item.ReceiverPhone,
                     ReceiverName = (await liteMessagingContext.Users
-                    .FirstOrDefaultAsync(x=>x.Phone ==  item.ReceiverPhone))?.Username,
+                    .FirstOrDefaultAsync(x => x.Phone == item.ReceiverPhone))?.Username,
                     ID = item.ID,
                     Phone = item.Phone
                 });
             }
 
             return msg;
+        }
+
+        public async Task<IReadOnlyList<UserDTO>> GetUserByName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("The required field PHONE is missing.");
+            }
+
+            var u = await liteMessagingContext.Users
+                .Where(x => x.Username.Contains(name) == true || x.Username.StartsWith(name) == true)
+                .Take(30)
+                .ToListAsync();
+
+            var users = new List<UserDTO>();
+            foreach (var item in u)
+            {
+                users.Add(new UserDTO
+                {
+                    PhoneNumber = item.Phone,
+                    Token = item.Token,
+                    Username = item.Username
+                });
+            }
+
+            return users.OrderBy(x => x.Username).ToList();
         }
 
         public async Task<UserDTO> GetUserByNumber(string phone)
@@ -80,15 +108,16 @@ namespace Persistence.Services
             }
 
             var u = await liteMessagingContext.Users.FirstOrDefaultAsync(x => x.Phone == phone);
-            if(u is null)
+            if (u is null)
             {
                 throw new KeyNotFoundException("this number does not have an account");
             }
 
             return new UserDTO
             {
-                Username = u.Username,
-                PhoneNumber = u.Phone,
+                Username = u?.Username,
+                PhoneNumber = u?.Phone,
+                Token = u?.Token
             };
         }
 
@@ -104,8 +133,12 @@ namespace Persistence.Services
                 ReceiverPhone = msg.ReceiverPhone
             };
 
+            var senderName = await this.liteMessagingContext.Users.FirstOrDefaultAsync(x => x.Phone == msg.Phone);
+
             await liteMessagingContext.Messages.AddAsync(message);
             await liteMessagingContext.SaveChangesAsync();
+
+           var pushResult = await notificationService.SendAsync(msg.ReceiverToken, msg.ReceiverPhone, msg.Body, senderName?.Username);
 
             return new MessageDTO
             {
@@ -113,6 +146,7 @@ namespace Persistence.Services
                 Date = message.Date,
                 Body = message.Body,
                 Phone = message.Phone,
+                DeliveryRepport = pushResult,
                 ReceiverPhone = message.ReceiverPhone,
                 ReceiverName = (await liteMessagingContext.Users
                 .FirstOrDefaultAsync(x => x.Phone == message.ReceiverPhone))?.Phone,
@@ -142,6 +176,21 @@ namespace Persistence.Services
             await liteMessagingContext.SaveChangesAsync();
 
             return true;
+        }
+
+        /// <summary>
+        /// Used to configure HttpClient
+        /// </summary>
+        /// <returns><see cref="HttpClient"/> the configured httpclient</returns>
+        protected HttpClient ConfigureHttp()
+        {
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            httpClientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            HttpClient httpClient = new HttpClient(httpClientHandler);
+
+            //TODO: COnfigure here the base adress of the requests.
+
+            return httpClient;
         }
     }
 }

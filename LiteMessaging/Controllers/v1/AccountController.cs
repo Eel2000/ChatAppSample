@@ -40,5 +40,23 @@ namespace LiteMessaging.Controllers.v1
         [HttpPost("send-meesage")]
         public async Task<IActionResult> SendMessage([FromBody] MsgParam param) =>
             Ok(await Mediator.Send(new SendCommand(param)));
+
+        /// <summary>
+        /// Add a token to the given phone number.
+        /// </summary>
+        /// <param name="param">Update data.</param>
+        /// <returns></returns>
+        [HttpPut("refrech-token")]
+        public async Task<IActionResult> UpdateToken([FromBody] TokenParam param) => 
+            Ok(await Mediator.Send(new UpdateTokenCommand(param)));
+
+        /// <summary>
+        /// Search specifics users by thier names.
+        /// </summary>
+        /// <param name="name">name to request with</param>
+        /// <returns></returns>
+        [HttpGet("search-for-user")]
+        public async Task<IActionResult> SearchFor([FromQuery] string name) =>
+            Ok(await Mediator.Send(new SearchForCommand(name)));
     }
 }

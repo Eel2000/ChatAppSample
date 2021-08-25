@@ -26,6 +26,13 @@ namespace Application.Interfaces
         Task<UserDTO> GetUserByNumber(string phone);
 
         /// <summary>
+        /// Return the given name's user.
+        /// </summary>
+        /// <param name="name">The queried name.</param>
+        /// <returns><see cref="IReadOnlyList{T}"/> the list of users whom names begin or contains the name.</returns>
+        Task<IReadOnlyList<UserDTO>> GetUserByName(string name);
+
+        /// <summary>
         /// Add the firebase token to user for messaging push.
         /// </summary>
         /// <param name="phone">Telephone</param>
